@@ -6880,7 +6880,11 @@ void ImGui::MultiSelectItemFooter(ImGuiID id, bool* p_selected, bool* p_pressed)
     ImGuiMultiSelectState* storage = ms->Storage;
     if (pressed)
         ms->IsFocused = true;
-    if (!ms->IsFocused)
+
+    bool hovered = false;
+    if (g.LastItemData.StatusFlags & ImGuiItemStatusFlags_HoveredRect)
+        hovered = IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup);
+    if (!ms->IsFocused && !hovered)
         return;
 
     void* item_data = g.NextItemData.SelectionData;
@@ -6907,7 +6911,6 @@ void ImGui::MultiSelectItemFooter(ImGuiID id, bool* p_selected, bool* p_pressed)
 
     // Right-click handling: this could be moved at the Selectable() level.
     // FIXME-MULTISELECT: See https://github.com/ocornut/imgui/pull/5816
-    bool hovered = IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup);
     if (hovered && IsMouseClicked(1))
     {
         if (g.ActiveId != 0 && g.ActiveId != id)
