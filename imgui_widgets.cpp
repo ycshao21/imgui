@@ -3865,7 +3865,7 @@ void ImGuiInputTextCallbackData::DeleteChars(int pos, int bytes_count)
 void ImGuiInputTextCallbackData::InsertChars(int pos, ImStrv new_text)
 {
     // Accept null ranges
-    if (new_text == new_text_end)
+    if (new_text.Begin == new_text.End)
         return;
 
     const bool is_resizable = (Flags & ImGuiInputTextFlags_CallbackResize) != 0;
